@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.TextView;
 
@@ -14,20 +16,39 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.mypolarapp.BeatScheduler;
+import com.example.mypolarapp.EcgWaveformView;
+import com.example.mypolarapp.HeartRate;
+import com.example.mypolarapp.HeartVisualizerView;
+import com.example.mypolarapp.HeartbeatSoundPlayer;
+
 public class MainActivity extends AppCompatActivity {
     // This ID is used to connect directly to the correct Polar device
     private static final String POLAR_DEVICE_ID = "7B688B23";
     // Handles the connection to the Polar sensor and receives live heart rate data
     private PolarLiveData polarLiveData;
-    // TextViews used to display connection status and heart rate
+    // TextView used to display connection status
     private TextView statusText;
-    private TextView heartRateText;
 
     // used to identify the Bluetooth permission and when asking the user to enable Bluetooth
     private static final int BLUETOOTH_PERMISSION_REQUEST = 100;
     private static final int ENABLE_BLUETOOTH_REQUEST = 101;
     // Provide access to phone blutooth
     private BluetoothAdapter bluetoothAdapter;
+
+    // visualizer front end
+    private HeartVisualizerView heartVisualizer;
+    private EcgWaveformView ecgWave;
+    private ImageView heartImage;
+    private TextView hrValue;
+    private TextView zoneStatus;
+    private Button playButton;
+    private Button soundButton;
+
+    private final HeartbeatSoundPlayer soundPlayer = new HeartbeatSoundPlayer();
+    private BeatScheduler beatScheduler;
+    private boolean isRunning = true;
+    private boolean isSoundEnabled = true;
 
     /**
      * Called when the activity is first created
@@ -38,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Connect to xml
-        setContentView(R.layout .activity_main);
+        setContentView(R.layout.activity_main);
 
         statusText = findViewById(R.id.statusText);
-        heartRateText = findViewById(R.id.heartRateText);
+        setUpVisualizer();
+
         // Get the BluetoothManager used to access the BluetoothAdapter
         BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
@@ -61,6 +83,83 @@ public class MainActivity extends AppCompatActivity {
         }
         // check and request bluetooth permission
         requestBluetoothPermissions();
+    }
+
+    /**
+     * Wires up the heart-rate visualizer: the animated backdrop, the ECG waveform, the panel, and the play/pause + sound buttons
+     * Runs with a default 72 BPM until live Polar data arrives, so the screen is already alive before a sensor connects
+     */
+    private void setUpVisualizer() {
+        heartVisualizer = findViewById(R.id.heartVisualizer);
+        ecgWave = findViewById(R.id.ecgWave);
+        heartImage = findViewById(R.id.heartImage);
+        hrValue = findViewById(R.id.hrValue);
+        zoneStatus = findViewById(R.id.zoneStatus);
+        playButton = findViewById(R.id.playButton);
+        soundButton = findViewById(R.id.soundButton);
+
+        beatScheduler = new BeatScheduler(this::onBeat);
+        beatScheduler.start();
+
+        playButton.setOnClickListener(v -> {
+            isRunning = !isRunning;
+            heartVisualizer.setRunning(isRunning);
+            ecgWave.setRunning(isRunning);
+            if (isRunning) {
+                beatScheduler.start();
+            } else {
+                beatScheduler.stop();
+            }
+        });
+
+        soundButton.setOnClickListener(v -> isSoundEnabled = !isSoundEnabled);
+    }
+
+    /**
+     * Once per heartbeat by BeatScheduler pulses the heart image and plays the sound
+     */
+    private void onBeat(float currentHeartRate) {
+        pulseHeart(currentHeartRate);
+        if (isSoundEnabled) {
+            soundPlayer.play(currentHeartRate);
+        }
+    }
+
+    /**
+     * Quick pulse on the heart image, timed to the current beat length
+     * Replaces the CSS "beat" keyframe animation, which ran on a fixed loop rather than being triggered per beat
+     */
+    private void pulseHeart(float currentHeartRate) {
+        long beatDurationMs = (long) (60000f / currentHeartRate);
+        long rampMs = Math.max(1, (long) (beatDurationMs * 0.12f));
+
+        heartImage.animate().cancel();
+        heartImage.setScaleX(1f);
+        heartImage.setScaleY(1f);
+        heartImage.animate()
+                .scaleX(1.035f)
+                .scaleY(1.035f)
+                .setDuration(rampMs)
+                .withEndAction(() -> heartImage.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(rampMs)
+                        .start())
+                .start();
+    }
+
+    /**
+     * Pushes a new live BPM reading into every part of the visualizer.
+     * Called from the Polar listener's onHeartRateReceived() below.
+     */
+    private void updateHeartRate(int heartRate) {
+        heartVisualizer.setHeartRate(heartRate);
+        ecgWave.setHeartRate(heartRate);
+        beatScheduler.setHeartRate(heartRate);
+
+        hrValue.setText(String.valueOf(heartRate));
+        zoneStatus.setText(HeartRate.getZone(heartRate));
+        zoneStatus.setTextColor(HeartRate.getColor(heartRate));
     }
 
     /**
@@ -170,10 +269,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void onHeartRateReceived(
                                         int heartRate
                                 ) {
-                                    // Display the live heart rate in BPM
-                                    heartRateText.setText(
-                                            heartRate + " BPM"
-                                    );
+                                    // Push the live BPM into the visualizer
+                                    updateHeartRate(heartRate);
                                 }
 
                                 /**

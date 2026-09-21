@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_heart_rate">Heart rate</string>
+    <string name="label_bpm">BPM</string>
+    <string name="label_ecg">ECG waveform</string>
+    <string name="zone_normal">NORMAL</string>
+    <string name="legend_high">High heart rate</string>
+    <string name="legend_normal">Normal</string>
+    <string name="legend_low">Low heart rate</string>
+    <string name="button_play_pause">Play / pause</string>
+    <string name="button_sound">Sound on/off</string>
+    <string name="heart_content_description">Human heart</string>
+</resources>
