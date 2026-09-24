@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageView heartImage;
     private TextView hrValue;
     private TextView zoneStatus;
-    private Button playButton;
+    //private Button playButton;
     private Button soundButton;
 
     private final HeartbeatSoundPlayer soundPlayer = new HeartbeatSoundPlayer();
     private BeatScheduler beatScheduler;
-    private boolean isRunning = true;
+    //private boolean isRunning = true;
     private boolean isSoundEnabled = true;
 
     /**
@@ -95,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
         heartImage = findViewById(R.id.heartImage);
         hrValue = findViewById(R.id.hrValue);
         zoneStatus = findViewById(R.id.zoneStatus);
-        playButton = findViewById(R.id.playButton);
+        //playButton = findViewById(R.id.playButton);
         soundButton = findViewById(R.id.soundButton);
 
         beatScheduler = new BeatScheduler(this::onBeat);
         beatScheduler.start();
 
-        playButton.setOnClickListener(v -> {
+        /*playButton.setOnClickListener(v -> {
             isRunning = !isRunning;
             heartVisualizer.setRunning(isRunning);
             ecgWave.setRunning(isRunning);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 beatScheduler.stop();
             }
-        });
+        });**/
 
         soundButton.setOnClickListener(v -> isSoundEnabled = !isSoundEnabled);
     }

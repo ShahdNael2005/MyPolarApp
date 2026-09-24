@@ -167,15 +167,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/playButton"
-            style="@style/HoloButton"
-            android:text="@string/button_play_pause" />
 
         <Button
             android:id="@+id/soundButton"
             style="@style/HoloButton"
-            android:layout_marginStart="8dp"
             android:text="@string/button_sound" />
     </LinearLayout>
 
