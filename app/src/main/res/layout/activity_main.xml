@@ -25,7 +25,7 @@
         android:alpha="0.95"
         android:contentDescription="@string/heart_content_description"
         android:src="@drawable/heart_pic"
-        app:layout_constraintWidth_percent="0.62"
+        app:layout_constraintWidth_percent="0.70"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -107,8 +107,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Top right: small round info button.
-         AppCompatButton (not Button) so the Material theme doesn't replace bg_button with a grey tint -->
+    <!-- Top right: small round info button-->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/infoButton"
         android:layout_width="44dp"
