@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#020617">
+    android:background="#020617"
+    android:fitsSystemWindows="true">
 
     <!-- Animated backdrop: radial gradient + wave field + hoops + particles + vignette -->
     <com.example.mypolarapp.HeartVisualizerView
@@ -16,20 +17,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Heart image, pulses once per beat -->
+    <!-- Heart image, centred so it lines up with the hoops, pulses once per beat -->
     <ImageView
         android:id="@+id/heartImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.48"
+        android:alpha="0.95"
+        android:contentDescription="@string/heart_content_description"
+        android:src="@drawable/heart_pic"
+        app:layout_constraintWidth_percent="0.62"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/heart_pic"
-        android:alpha="0.9"
-        android:contentDescription="@string/heart_content_description" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- BLE connection status from PolarLiveData -->
     <TextView
@@ -37,6 +38,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:gravity="center"
         android:textColor="#8EA6D8"
         android:textSize="12sp"
@@ -44,20 +47,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Left panel: heart rate readout -->
+    <!-- Top left: compact heart rate readout -->
     <LinearLayout
-        android:id="@+id/leftPanel"
-        android:layout_width="220dp"
+        android:id="@+id/hrPanel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="28dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/bg_panel"
+        android:minWidth="150dp"
         android:orientation="vertical"
-        android:padding="18dp"
+        android:paddingStart="18dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="14dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/statusText">
 
         <TextView
             style="@style/PanelLabel"
+            android:layout_marginBottom="2dp"
             android:text="@string/label_heart_rate" />
 
         <LinearLayout
@@ -70,108 +79,82 @@
                 android:id="@+id/hrValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:text="72"
                 android:textColor="#178DFF"
-                android:textSize="52sp"
+                android:textSize="44sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="6dp"
                 android:text="@string/label_bpm"
                 android:textColor="#9FB4DB"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/zoneStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+            android:letterSpacing="0.1"
             android:text="@string/zone_normal"
             android:textColor="#13A8FF"
-            android:textSize="14sp" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Right panel: ECG waveform + legend -->
+    <!-- Top right: small round info button.
+         AppCompatButton (not Button) so the Material theme doesn't replace bg_button with a grey tint -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/infoButton"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_button"
+        android:contentDescription="@string/button_info_description"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:text="@string/button_info"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/hrPanel" />
+
+    <!-- Bottom: ECG waveform card -->
     <LinearLayout
-        android:id="@+id/rightPanel"
-        android:layout_width="240dp"
+        android:id="@+id/ecgPanel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_panel"
         android:orientation="vertical"
-        android:padding="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingStart="16dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintWidth_max="520dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
             style="@style/PanelLabel"
+            android:layout_marginBottom="4dp"
             android:text="@string/label_ecg" />
 
         <com.example.mypolarapp.EcgWaveformView
             android:id="@+id/ecgWave"
             android:layout_width="match_parent"
-            android:layout_height="90dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
-
-            <LinearLayout style="@style/LegendRow">
-                <View
-                    style="@style/LegendDot"
-                    android:backgroundTint="#FF2E52" />
-
-                <TextView
-                    style="@style/LegendLabel"
-                    android:text="@string/legend_high" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/LegendRow">
-                <View
-                    style="@style/LegendDot"
-                    android:backgroundTint="#2AA8FF" />
-
-                <TextView
-                    style="@style/LegendLabel"
-                    android:text="@string/legend_normal" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/LegendRow">
-                <View
-                    style="@style/LegendDot"
-                    android:backgroundTint="#21E6FF" />
-
-                <TextView
-                    style="@style/LegendLabel"
-                    android:text="@string/legend_low" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Bottom panel: controls -->
-    <LinearLayout
-        android:id="@+id/bottomPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/bg_panel"
-        android:orientation="horizontal"
-        android:padding="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <Button
-            android:id="@+id/soundButton"
-            style="@style/HoloButton"
-            android:text="@string/button_sound" />
+            android:layout_height="80dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

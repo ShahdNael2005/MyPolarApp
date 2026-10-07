@@ -11,10 +11,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.mypolarapp.BeatScheduler;
 import com.example.mypolarapp.EcgWaveformView;
@@ -43,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView hrValue;
     private TextView zoneStatus;
     //private Button playButton;
-    private Button soundButton;
+    //private Button soundButton;
+    private Button infoButton;
 
     private final HeartbeatSoundPlayer soundPlayer = new HeartbeatSoundPlayer();
     private BeatScheduler beatScheduler;
@@ -96,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
         hrValue = findViewById(R.id.hrValue);
         zoneStatus = findViewById(R.id.zoneStatus);
         //playButton = findViewById(R.id.playButton);
-        soundButton = findViewById(R.id.soundButton);
+        //soundButton = findViewById(R.id.soundButton);
+        infoButton = findViewById(R.id.infoButton);
 
         beatScheduler = new BeatScheduler(this::onBeat);
         beatScheduler.start();
@@ -111,8 +120,33 @@ public class MainActivity extends AppCompatActivity {
                 beatScheduler.stop();
             }
         });**/
+        infoButton.setOnClickListener(v -> showInfoDialog());
+        //soundButton.setOnClickListener(v -> isSoundEnabled = !isSoundEnabled);
+    }
+    /**
+     * Shows the info popup with the heart rate zones and the sound on/off switch
+     */
+    private void showInfoDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.infobox, null);
 
-        soundButton.setOnClickListener(v -> isSoundEnabled = !isSoundEnabled);
+        // Show the current sound setting and update it when the switch changes
+        SwitchCompat soundSwitch = dialogView.findViewById(R.id.soundSwitch);
+        soundSwitch.setChecked(isSoundEnabled);
+        soundSwitch.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> isSoundEnabled = isChecked);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        dialogView.findViewById(R.id.closeButton)
+                .setOnClickListener(v -> dialog.dismiss());
+
+        // Remove the default white dialog box so the rounded bg_panel shows instead
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        dialog.show();
     }
 
     /**

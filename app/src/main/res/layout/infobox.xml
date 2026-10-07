@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_panel"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        style="@style/PanelLabel"
+        android:text="@string/info_zones_title" />
+
+    <LinearLayout style="@style/LegendRow">
+        <View style="@style/LegendDot" android:backgroundTint="#EB3C63" />
+        <TextView style="@style/LegendLabel" android:text="@string/legend_high" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LegendRow">
+        <View style="@style/LegendDot" android:backgroundTint="#A47396" />
+        <TextView style="@style/LegendLabel" android:text="@string/legend_elevated" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LegendRow">
+        <View style="@style/LegendDot" android:backgroundTint="#56B1CE" />
+        <TextView style="@style/LegendLabel" android:text="@string/legend_normal" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/LegendRow">
+        <View style="@style/LegendDot" android:backgroundTint="#14E6FF" />
+        <TextView style="@style/LegendLabel" android:text="@string/legend_low" />
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="14dp"
+        android:background="#33FFFFFF" />
+
+    <!-- Sound toggle -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/label_sound"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/soundSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/closeButton"
+        style="@style/HoloButton"
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp"
+        android:text="@string/button_close" />
+</LinearLayout>

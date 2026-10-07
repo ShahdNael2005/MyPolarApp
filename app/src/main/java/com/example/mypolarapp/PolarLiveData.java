@@ -165,8 +165,7 @@ public class PolarLiveData {
                 Log.d(TAG, "Feature ready: " + feature);
 
                 // Check if the heart-rate feature is ready once it is ready, live heart-rate streaming can begin
-                if (feature ==
-                        PolarBleApi.PolarBleSdkFeature.FEATURE_HR) {
+                if (feature == PolarBleApi.PolarBleSdkFeature.FEATURE_HR) {
 
                     sendStatus("Heart-rate feature is ready");
                     // Start listening for live heart-rate values
@@ -290,17 +289,11 @@ public class PolarLiveData {
                 .subscribe(
                         heartRateData -> {
                             // A PolarHrData object can contain one or more heart-rate samples
-                            for (PolarHrData.PolarHrSample sample
-                                    : heartRateData.getSamples()) {
+                            for (PolarHrData.PolarHrSample sample : heartRateData.getSamples()) {
                                 // get the BPM value from sample
                                 int heartRate = sample.getHr();
                                 // Print the heart rate to Logcat
-                                Log.d(
-                                        TAG,
-                                        "Live heart rate: " +
-                                                heartRate +
-                                                " BPM"
-                                );
+                                Log.d(TAG, "Live heart rate: " + heartRate + " BPM");
                                 // Send the heart-rate value back to MainActivity
                                 sendHeartRate(heartRate);
                             }

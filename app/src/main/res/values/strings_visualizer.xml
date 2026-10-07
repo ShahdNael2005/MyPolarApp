@@ -4,9 +4,16 @@
     <string name="label_bpm">BPM</string>
     <string name="label_ecg">ECG waveform</string>
     <string name="zone_normal">NORMAL</string>
-    <string name="legend_high">High heart rate</string>
-    <string name="legend_normal">Normal</string>
-    <string name="legend_low">Low heart rate</string>
-    <string name="button_sound">Sound on/off</string>
+    <string name="legend_high">High: 100+ BPM</string>
+    <string name="legend_elevated">Elevated: 85–99 BPM</string>
+    <string name="legend_normal">Normal: 60–84 BPM</string>
+    <string name="legend_low">Low: under 60 BPM</string>
+    <string name="button_info">!</string>
+    <string name="info_zones_title">Heart rate zones</string>
+    <string name="button_info_description">Info: heart rate zones and sound</string>
+
+    <!-- <string name="button_sound">Sound on/off</string> -->
+    <string name="label_sound">Heartbeat sound</string>
+    <string name="button_close">Close</string>
     <string name="heart_content_description">Human heart</string>
-</resources>
+ </resources>
