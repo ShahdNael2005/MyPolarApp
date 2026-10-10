@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heart Rate Particle Hoops Visualisation</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="stage">
+      <canvas id="space"></canvas>
+
+      <img
+        id="heart"
+        src="heartPic.png"
+        alt="Human heart"
+      />
+
+      <div class="hud"></div>
+
+      <div class="panel left">
+        <div class="label">Heart rate</div>
+        <div>
+          <span id="hr">72</span>
+          <span class="bpm">BPM</span>
+        </div>
+        <div id="zone" class="status">NORMAL</div>
+      </div>
+
+      <div class="panel right">
+        <div class="label">ECG waveform</div>
+        <canvas id="wave"></canvas>
+
+        <div class="legend">
+          <span>
+            <i class="dot dot-high"></i>
+            High heart rate
+          </span>
+          <span>
+            <i class="dot dot-normal"></i>
+            Normal
+          </span>
+          <span>
+            <i class="dot dot-low"></i>
+            Low heart rate
+          </span>
+        </div>
+      </div>
+
+      <div class="panel bottom">
+        <div class="label">
+          
+        </div>
+
+        <!-- <input id="slider" type="range" min="45" max="155" value="72" />
+      -->
+        <div class="button-row">
+          <button id="play">Play / pause data</button>
+          <button id="sound">Sound on/off</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

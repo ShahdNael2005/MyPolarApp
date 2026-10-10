@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECG Heart Rate Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div id="pulse-frame">
+  <div class="frame-segment frame-top zone-low"></div>
+  <div class="frame-segment frame-bottom zone-low"></div>
+  <div class="frame-segment frame-left zone-low"></div>
+  <div class="frame-segment frame-right zone-low"></div>
+  <div class="pulse-blob blob-tl"></div>
+  <div class="pulse-blob blob-tr"></div>
+  <div class="pulse-blob blob-bl"></div>
+  <div class="pulse-blob blob-br"></div>
+</div>
+
+<div id="hud">
+  <div id="bpm-display">-- BPM</div>
+  <div id="zone-label">Loading...</div>
+</div>
+
+<div id="scene">
+  <div id="world">
+    <div id="earth-container">
+      <div id="earth"></div>
+    </div>
+    <canvas id="person-canvas" width="50" height="80"></canvas>
+    <canvas id="ecg-strip" width="600" height="80"></canvas>
+  </div>
+</div>
+
+<div id="data-control">
+  <label for="folder-input">PRE-RECORDED HEART-RATE DATA</label>
+<!--
+  <input
+    type="file"
+    id="folder-input"
+    webkitdirectory
+    directory
+    multiple
+    accept=".csv,.txt"
+  >-->
+
+  <div class="playback-buttons">
+    <button id="play-button" disabled>Play</button>
+    <button id="pause-button" disabled>Pause</button>
+    <button id="restart-button" disabled>Restart</button>
+  </div>
+
+  <div id="playback-progress">
+    <div id="playback-progress-fill"></div>
+  </div>
+
+  <div id="playback-status">
+    Loading Polar HR data...
+  </div>
+</div>
+
+<script src="getPolarData.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

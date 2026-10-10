@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ECG Nature</title>
+  <link href="styles.css" rel="stylesheet"/>
+</head>
+
+<body>
+  <div class="app" id="app">
+
+    <header>
+      <h1>Nature Story</h1>
+    </header>
+
+    <main class="scene" id="scene">
+
+      <div class="sun"></div>
+
+      <section class="status-card">
+        <div class="heart-rate">
+          <span id="bpmText">50</span> BPM
+        </div>
+      </section>
+
+      <div class="tree" id="tree">
+
+        <div class="trunk"></div>
+
+        <div class="branch b1"></div>
+        <div class="branch b2"></div>
+        <div class="branch b3"></div>
+        <div class="branch b4"></div>
+        <div class="branch b5"></div>
+
+        <!-- flames -->
+        <div class="flame f1"></div>
+        <div class="flame f2"></div>
+        <div class="flame f3"></div>
+        <div class="flame f4"></div>
+        <div class="flame f5"></div>
+        <div class="flame f6"></div>
+        <div class="flame f7"></div>
+        <div class="flame f8"></div>
+
+      </div>
+
+      <div class="ground"></div>
+
+    </main>
+
+    <footer class="ecg-panel">
+
+      <canvas
+        height="150"
+        id="ecgCanvas"
+        width="1300">
+      </canvas>
+
+      <div class="controls">
+
+        <span id="dataStatus">
+          Loading Polar ECG...
+        </span>
+
+        <span class="legend">
+          Low: leaves fall |
+          Stable: leaves grow |
+          Increased: apples form |
+          Too fast: catch fire
+        </span>
+
+      </div>
+
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
